@@ -1,0 +1,42 @@
+{
+  "name": "ssh-xtermjs",
+  "version": "0.0.1",
+  "description": "ssh xterm.js",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/takamitsu-iida/ssh-xtermjs.git"
+  },
+  "author": "takamitsu-iida",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/takamitsu-iida/ssh-xtermjs/issues"
+  },
+  "homepage": "https://github.com/takamitsu-iida/ssh-xtermjs#readme",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "read-config": "^2.0.0",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "ssh2": "^0.8.7",
+    "utf8": "^3.0.0",
+    "xterm": "^4.3.0",
+    "xterm-addon-attach": "^0.4.0",
+    "xterm-addon-fit": "^0.3.0"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.1.1",
+    "css-loader": "^3.4.2",
+    "style-loader": "^1.1.3",
+    "tsc": "^1.20150623.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}
