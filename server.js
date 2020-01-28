@@ -11,18 +11,22 @@ const server = http.createServer(app);
 
 const fs = require('fs');
 const path = require('path');
+
 const nodeRoot = path.dirname(require.main.filename);
 const configPath = path.join(nodeRoot, 'config.json');
 let config = null;
-try {
-  console.log('try to read config from: ' + configPath);
-  if (fs.existsSync(configPath)) {
-    config = require('read-config')(configPath);
-  } else {
-    console.error('\n\nERROR: config.json not found');
+if (fs.existsSync(configPath)) {
+  try {
+    config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  } catch (err) {
+    console.error('ERROR:\n\n  ' + err);
   }
-} catch (err) {
-  console.error('ERROR:\n\n  ' + err);
+} else {
+  console.error('ERROR: ' + configPath + ' not found');
+  process.exit(1);
+}
+if (config === null) {
+  process.exit(1);
 }
 
 const SshClient = require('ssh2').Client;

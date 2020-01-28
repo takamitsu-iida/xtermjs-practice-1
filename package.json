@@ -1,5 +1,5 @@
 {
-  "name": "ssh-xtermjs",
+  "name": "xtermjs-practice-1",
   "version": "0.0.1",
   "description": "ssh xterm.js",
   "main": "server.js",
@@ -10,18 +10,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/takamitsu-iida/ssh-xtermjs.git"
+    "url": "git+https://github.com/takamitsu-iida/xtermjs-practice-1.git"
   },
   "author": "takamitsu-iida",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/takamitsu-iida/ssh-xtermjs/issues"
+    "url": "https://github.com/takamitsu-iida/xtermjs-practice-1/issues"
   },
-  "homepage": "https://github.com/takamitsu-iida/ssh-xtermjs#readme",
+  "homepage": "https://github.com/takamitsu-iida/xtermjs-practice-1#readme",
   "dependencies": {
     "ejs": "^3.0.1",
     "express": "^4.17.1",
-    "read-config": "^2.0.0",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "ssh2": "^0.8.7",
