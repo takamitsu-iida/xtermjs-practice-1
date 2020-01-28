@@ -26,7 +26,6 @@ if (fs.existsSync(configPath)) {
   }
 } else {
   console.error('ERROR: ' + configPath + ' not found');
-  process.exit(1);
 }
 if (config === null) {
   process.exit(1);
@@ -51,9 +50,10 @@ app.get('/', (req, res) => {
 const serverPort = 8888;
 server.listen(serverPort);
 
-// socket.io websocket connection
+// socket.io server
 const io = require('socket.io')(server, {pingTimeout: 30000});
 
+// number of current connected users
 let numUsers = 0;
 
 io.on('connection', function(socket) {
