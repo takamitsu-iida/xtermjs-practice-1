@@ -12,6 +12,9 @@ const server = http.createServer(app);
 const fs = require('fs');
 const path = require('path');
 
+// config.json is not included in git repository.
+//   1. copy config.sample.json config.json
+//   2. edit it
 const nodeRoot = path.dirname(require.main.filename);
 const configPath = path.join(nodeRoot, 'config.json');
 let config = null;
@@ -52,16 +55,6 @@ server.listen(serverPort);
 const io = require('socket.io')(server, {pingTimeout: 30000});
 
 let numUsers = 0;
-const store = {}; // {userid: userobj}
-const idstore = {}; // {socket.id: userid}
-
-function get_room_by_socketid(socketid) {
-  if (idstore[socketid]) {
-    const userobj = store[idstore[socketid]];
-    return userobj.room;
-  }
-  return null;
-}
 
 io.on('connection', function(socket) {
   ++numUsers;
@@ -99,8 +92,10 @@ io.on('connection', function(socket) {
         stream.on('data', function(d) {
           // socket.emit('data', utf8.decode(d.toString('binary')));
           // socket.broadcast.emit('data', utf8.decode(d.toString('binary')));
-          const room = get_room_by_socketid(socket.id);
-          io.sockets.in(room).emit('data', utf8.decode(d.toString('binary')));
+          const room = socket.usrobj.room;
+          if (room) {
+            io.sockets.in(room).emit('data', utf8.decode(d.toString('binary')));
+          }
         });
 
         stream.on('close', function() {
@@ -155,18 +150,17 @@ io.on('connection', function(socket) {
       }
     });
 
+  // user send 'join' message with json object
+  // store the object in socket object
   socket
     .on('join', function(data) {
       const usrobj = {
         'room': data.room,
         'name': data.name,
       };
-      store[data.userid] = usrobj;
-      idstore[socket.id] = data.userid;
+      socket.usrobj = usrobj;
       socket.join(data.room);
-      console.log('userid: ' + data.userid);
-      console.log('socket.id: ' + socket.id);
-      console.log('join to the room: ' + data.room);
+      console.log('name: ' + data.name + ' join to the room: ' + data.room);
     });
 
   socket
@@ -174,14 +168,5 @@ io.on('connection', function(socket) {
       console.log('user disconnected because: ' + reason);
       --numUsers;
       console.log('current users: ' + numUsers);
-
-      if (idstore[socket.id]) {
-        const room = store[idstore[socket.id]].room;
-        const name = store[idstore[socket.id]].name;
-        socket.leave(room);
-        console.log('leave from the room: ' + room);
-        io.to(room).emit('data', '\r\n*** ' + name + ' exited ***\r\n');
-        delete idstore[socket.id];
-      }
     });
 });
